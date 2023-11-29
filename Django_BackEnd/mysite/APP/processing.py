@@ -24,7 +24,8 @@ def processTime():
     
     # date = string[:10]
     
-    return time.asctime()
+    s = time.asctime()
+    return s
 
 def processingEventData(text):
     remove = re.compile('<.*?>')

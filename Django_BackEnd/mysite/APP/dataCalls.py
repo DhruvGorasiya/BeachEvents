@@ -61,11 +61,10 @@ def getEvents(request):
 
 
                         #https://csulb.campuslabs.com/engage/api/discovery/event/search?endsAfter=2023-10-11T17%5E%25%5E3A39%5E%25%5E3A12-07%5E%25%5E3A00&status=Approved&take=15&query=farm
-    # res = (requests.get(f"https://csulb.campuslabs.com/engage/api/discovery/event/search?endsAfter={processTime()}&status=Approved&take=10&query={request.GET.get('query')}")).json()['value']
-    res = (requests.get(f"https://csulb.campuslabs.com/engage/api/discovery/event/search?&status=Approved&take=10&query={request.GET.get('query')}")).json()['value']
+    res = (requests.get(f"https://csulb.campuslabs.com/engage/api/discovery/event/search?endsAfter={processTime()}&status=Approved&take=10&query={request.GET.get('query')}")).json()['value']
     print(res)
     val  = [ {'name': i['name'], "Id" : i['id'], 'description': processingEventData(i['description']) , 'location': i['location'],'start' : f"{date(i['startsOn'][11:16])} on {month(i['startsOn'][:10])}", 'end': f"{date(i['endsOn'][11:16])} on {month(i['endsOn'][:10])}", 'imagePath': f'https://se-images.campuslabs.com/clink/images/{i["imagePath"]}?preset=large-w&quot'} for i in res]
-    # print(val)
+    print(val)
     return response.Response(val)
 
 # get orgs list by username form front end and for every orgID do getORGcall from the beach sync database
@@ -73,7 +72,6 @@ def getEvents(request):
 def getOrgs(request):
     res = requests.get(f"https://csulb.campuslabs.com/engage/api/discovery/search/organizations?orderBy%5B0%5D=UpperName%20asc&top=10&filter&query={request.GET.get('query')}&skip=0").json()['value']
     # return response.Response(res.json()['value'])
-
     val  = [ {'name': i['Name'], 'Summary': i['Summary'], 'ProfilePicture': f"https://se-images.campuslabs.com/clink/images/{i['ProfilePicture']}?preset=small-sq"} for i in res]
     
     return response.Response(val)
